@@ -80,7 +80,7 @@ class GAN(object):
                 image_size *= 2
                 W = utils.weight_variable([5, 5, dims[index + 1], dims[index]], name="W_%d" % index)
                 b = utils.bias_variable([dims[index + 1]], name="b_%d" % index)
-                deconv_shape = tf.pack([tf.shape(h)[0], image_size, image_size, dims[index + 1]])
+                deconv_shape = tf.stack([tf.shape(h)[0], image_size, image_size, dims[index + 1]])
                 h_conv_t = utils.conv2d_transpose_strided(h, W, b, output_shape=deconv_shape)
                 h_bn = utils.batch_norm(h_conv_t, dims[index + 1], train_phase, scope="gen_bn%d" % index)
                 h = activation(h_bn, name='h_%d' % index)
@@ -89,7 +89,7 @@ class GAN(object):
             image_size *= 2
             W_pred = utils.weight_variable([5, 5, dims[-1], dims[-2]], name="W_pred")
             b_pred = utils.bias_variable([dims[-1]], name="b_pred")
-            deconv_shape = tf.pack([tf.shape(h)[0], image_size, image_size, dims[-1]])
+            deconv_shape = tf.stack([tf.shape(h)[0], image_size, image_size, dims[-1]])
             h_conv_t = utils.conv2d_transpose_strided(h, W_pred, b_pred, output_shape=deconv_shape)
             pred_image = tf.nn.tanh(h_conv_t, name='pred_image')
             utils.add_activation_summary(pred_image)
@@ -290,7 +290,7 @@ class WasserstienGAN(GAN):
                 image_size *= 2
                 W = utils.weight_variable([4, 4, dims[index + 1], dims[index]], name="W_%d" % index)
                 b = tf.zeros([dims[index + 1]])
-                deconv_shape = tf.pack([tf.shape(h)[0], image_size, image_size, dims[index + 1]])
+                deconv_shape = tf.stack([tf.shape(h)[0], image_size, image_size, dims[index + 1]])
                 h_conv_t = utils.conv2d_transpose_strided(h, W, b, output_shape=deconv_shape)
                 h_bn = utils.batch_norm(h_conv_t, dims[index + 1], train_phase, scope="gen_bn%d" % index)
                 h = activation(h_bn, name='h_%d' % index)
@@ -299,7 +299,7 @@ class WasserstienGAN(GAN):
             image_size *= 2
             W_pred = utils.weight_variable([4, 4, dims[-1], dims[-2]], name="W_pred")
             b = tf.zeros([dims[-1]])
-            deconv_shape = tf.pack([tf.shape(h)[0], image_size, image_size, dims[-1]])
+            deconv_shape = tf.stack([tf.shape(h)[0], image_size, image_size, dims[-1]])
             h_conv_t = utils.conv2d_transpose_strided(h, W_pred, b, output_shape=deconv_shape)
             pred_image = tf.nn.tanh(h_conv_t, name='pred_image')
             utils.add_activation_summary(pred_image)
@@ -316,7 +316,7 @@ class WasserstienGAN(GAN):
             skip_bn = True  # First layer of discriminator skips batch norm
             for index in range(N - 2):
                 W = utils.weight_variable([4, 4, dims[index], dims[index + 1]], name="W_%d" % index)
-                b = tf.zeros([dims[index+1]])
+                b = tf.zeros([dims[index + 1]])
                 h_conv = utils.conv2d_strided(h, W, b)
                 if skip_bn:
                     h_bn = h_conv
