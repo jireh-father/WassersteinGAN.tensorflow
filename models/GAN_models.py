@@ -174,8 +174,8 @@ class GAN(object):
         tf.summary.histogram("z", self.z_vec)
         self.gen_images = self._generator(self.z_vec, generator_dims, self.train_phase, scope_name="generator")
 
-        tf.image_summary("image_real", self.images, max_images=2)
-        tf.image_summary("image_generated", self.gen_images, max_images=2)
+        tf.summary.image("image_real", self.images, max_outputs=2)
+        tf.summary.image("image_generated", self.gen_images, max_outputs=2)
 
         def leaky_relu(x, name="leaky_relu"):
             return utils.leaky_relu(x, alpha=0.2, name=name)
