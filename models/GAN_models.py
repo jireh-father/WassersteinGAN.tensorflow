@@ -223,7 +223,7 @@ class GAN(object):
         self.saver = tf.train.Saver()
         self.summary_writer = tf.summary.FileWriter(self.logs_dir, self.sess.graph)
 
-        self.sess.run(tf.initialize_all_variables())
+        self.sess.run(tf.global_variables_initializer())
         ckpt = tf.train.get_checkpoint_state(self.logs_dir)
         if ckpt and ckpt.model_checkpoint_path:
             self.saver.restore(self.sess, ckpt.model_checkpoint_path)
