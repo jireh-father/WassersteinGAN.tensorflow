@@ -41,10 +41,10 @@ class GAN(object):
         # resized_image = tf.image.resize_bilinear(decoded_image_4d, [self.target_image_size, self.target_image_size])
         # record.input_image = tf.squeeze(resized_image, squeeze_dims=[0])
 
-        cropped_image = tf.cast(
-            tf.image.crop_to_bounding_box(decoded_image, 55, 35, self.crop_image_size, self.crop_image_size),
-            tf.float32)
-        decoded_image_4d = tf.expand_dims(cropped_image, 0)
+        # cropped_image = tf.cast(
+        #     tf.image.crop_to_bounding_box(decoded_image, 55, 35, self.crop_image_size, self.crop_image_size),
+        #     tf.float32)
+        decoded_image_4d = tf.expand_dims(decoded_image, 0)
         resized_image = tf.image.resize_bilinear(decoded_image_4d, [self.resized_image_size, self.resized_image_size])
         record.input_image = tf.squeeze(resized_image, squeeze_dims=[0])
         return record
