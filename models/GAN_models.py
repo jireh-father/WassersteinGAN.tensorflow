@@ -218,9 +218,10 @@ class GAN(object):
         print("Initializing network...")
         self.logs_dir = logs_dir
         self.sess = tf.Session()
-        self.summary_op = tf.merge_all_summaries()
+
+        self.summary_op = tf.summary.merge_all()
         self.saver = tf.train.Saver()
-        self.summary_writer = tf.train.SummaryWriter(self.logs_dir, self.sess.graph)
+        self.summary_writer = tf.summary.FileWriter(self.logs_dir, self.sess.graph)
 
         self.sess.run(tf.initialize_all_variables())
         ckpt = tf.train.get_checkpoint_state(self.logs_dir)
