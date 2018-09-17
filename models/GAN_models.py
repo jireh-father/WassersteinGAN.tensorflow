@@ -127,7 +127,7 @@ class GAN(object):
         return tf.nn.sigmoid(h_pred), h_pred, h
 
     def _cross_entropy_loss(self, logits, labels, name="x_entropy"):
-        xentropy = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits, labels))
+        xentropy = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=logits, labels=labels))
         tf.summary.scalar(name, xentropy)
         return xentropy
 
