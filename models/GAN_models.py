@@ -6,6 +6,7 @@ import tensorflow as tf
 import numpy as np
 import os, sys, inspect
 import time
+from PIL import Image
 
 utils_folder = os.path.realpath(
     os.path.abspath(os.path.join(os.path.split(inspect.getfile(inspect.currentframe()))[0], "..")))
@@ -265,6 +266,10 @@ class GAN(object):
 
         images = self.sess.run(self.gen_images, feed_dict=feed_dict)
         images = utils.unprocess_image(images, 127.5, 127.5).astype(np.uint8)
+
+        for i, image in enumerate(images):
+            Image.fromarray(image).save(os.path.join(self.logs_dir, "%d_ge_testn.jpg" % i))
+        return
         shape = [4, self.batch_size // 4]
         utils.save_imshow_grid(images, self.logs_dir, "generated.png", shape=shape)
 
